@@ -18,14 +18,31 @@ variable "SKEY" {
   type    = string
 }
 
+variable "azure_url" {
+  type    = string
+}
+
+variable "azure_pat" {
+  type    = string
+}
+
+variable "azure_pool" {
+  type    = string
+}
+
+variable "azure_agent_name" {
+  type    = string
+  default = "packer-w2019-ue-423-azure"
+}
+
 # source blocks are generated from your builders; a source can be referenced in
 # build blocks. A build block runs provisioner and post-processors on a
 # source. Read the documentation for source blocks here:
 # https://www.packer.io/docs/from-1.5/blocks/source
-source "amazon-ebs" "packer-w2019" {
+source "amazon-ebs" "packer-w2019-ue-423-azure" {
   access_key = "${var.AKID}"
   secret_key = "${var.SKEY}"
-  ami_name         = "packer-w2019"
+  ami_name         = "packer-w2019-ue-423-azure"
   communicator     = "winrm"
   force_deregister = true
   instance_type    = "t2.micro"
@@ -55,6 +72,23 @@ source "amazon-ebs" "packer-w2019" {
 build {
   sources = ["source.amazon-ebs.packer-w2019"]
 
+  provisioner "powershell" {
+    script = "./scripts/disable_uac.ps1"
+  }
+
+  provisioner "powershell" {
+    script = "./scripts/packages.ps1"
+  }
+
+  provisioner "powershell" {
+    script = "./scripts/visual_studio.ps1"
+  }
+  
+  provisioner "powershell" {
+    environment_vars = ["URL=${var.azure_url}", "PAT=${var.azure_pat}", "POOL=${var.azure_pool}", "NAME=${var.azure_agent_name}"]
+    script = "./scripts/azure_agent.ps1"
+  }
+  
   provisioner "powershell" {
     inline = ["C:/ProgramData/Amazon/EC2-Windows/Launch/Scripts/SendWindowsIsReady.ps1 -Schedule", "C:/ProgramData/Amazon/EC2-Windows/Launch/Scripts/InitializeInstance.ps1 -Schedule", "C:/ProgramData/Amazon/EC2-Windows/Launch/Scripts/SysprepInstance.ps1 -NoShutdown"]
   }
