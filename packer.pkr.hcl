@@ -70,7 +70,7 @@ source "amazon-ebs" "packer-w2019-ue-423-azure" {
 # documentation for build blocks can be found here:
 # https://www.packer.io/docs/from-1.5/blocks/build
 build {
-  sources = ["source.amazon-ebs.packer-w2019"]
+  sources = ["source.amazon-ebs.packer-w2019-ue-423-azure"]
 
   provisioner "powershell" {
     script = "./scripts/disable_uac.ps1"

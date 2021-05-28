@@ -35,6 +35,9 @@ jobs:
           PKR_VAR_subnet_id: ${{ secrets.SUBNET_ID }}
           PKR_VAR_AKID: ${{ secrets.PACKER_IAM_AKID }}
           PKR_VAR_SKEY: ${{ secrets.PACKER_IAM_SKEY }}
+          PKR_VAR_azure_url: ${{ secrets.AZURE_URL }}
+          PKR_VAR_azure_pat: ${{ secrets.AZURE_PAT }}
+          PKR_VAR_azure_pool: ${{ secrets.AZURE_POOL }}
 
       # build artifact
       - name: Build Artifact
@@ -50,3 +53,6 @@ jobs:
           PKR_VAR_subnet_id: ${{ secrets.SUBNET_ID }}
           PKR_VAR_AKID: ${{ secrets.PACKER_IAM_AKID }}
           PKR_VAR_SKEY: ${{ secrets.PACKER_IAM_SKEY }}
+          PKR_VAR_azure_url: ${{ secrets.AZURE_URL }}
+          PKR_VAR_azure_pat: ${{ secrets.AZURE_PAT }}
+          PKR_VAR_azure_pool: ${{ secrets.AZURE_POOL }}
