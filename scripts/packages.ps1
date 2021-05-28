@@ -15,6 +15,6 @@ try {
 }
 
 catch {
-  Write-Error "🔥🔥🔥 Failed to install packages"
+  Write-Error "Failed to disable UAC"
   exit 1
 }

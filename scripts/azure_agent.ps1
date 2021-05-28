@@ -13,6 +13,6 @@ try {
 }
 
 catch {
-  Write-Error "🔥🔥🔥 Failed to install Azure Agent"
+  Write-Error "Failed to disable UAC"
   exit 1
 }

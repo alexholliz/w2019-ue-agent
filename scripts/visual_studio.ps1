@@ -9,6 +9,6 @@ try {
 }
 
 catch {
-  Write-Error "🔥🔥🔥 Failed to install packages"
+  Write-Error "Failed to install packages"
   exit 1
 }
