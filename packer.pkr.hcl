@@ -30,6 +30,22 @@ variable "azure_pool" {
   type    = string
 }
 
+variable "S3_BUCKET" {
+  type    = string
+}
+
+variable "UNREAL_ENGINE_VERSION" {
+  type    = string
+}
+
+variable "S3_AKID" {
+  type    = string
+}
+
+variable "S3_SKEY" {
+  type    = string
+}
+
 variable "azure_agent_name" {
   type    = string
   default = "packer-w2019-ue-423-azure"
@@ -84,6 +100,11 @@ build {
     script = "./scripts/visual_studio.ps1"
   }
   
+  provisioner "powershell" {
+    environment_vars = ["BUCKET=${var.S3_BUCKET}", "UNREAL_ENGINE_VERSION=${var.UNREAL_ENGINE_VERSION}", "AWS_ACCESS_KEY_ID=${var.S3_AKID}", "AWS_SECRET_ACCESS_KEY=${var.S3_SKEY}", "AWS_DEFAULT_REGION=${var.aws_region}"]
+    script = "./scripts/unreal_engine.ps1"
+  }
+
   provisioner "powershell" {
     environment_vars = ["URL=${var.azure_url}", "PAT=${var.azure_pat}", "POOL=${var.azure_pool}", "NAME=${var.azure_agent_name}"]
     script = "./scripts/azure_agent.ps1"
