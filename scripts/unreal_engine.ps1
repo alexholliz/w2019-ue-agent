@@ -1,6 +1,13 @@
 $ErrorActionPreference = 'Stop'
 
 try {
+  Write-Host "Importing AWSPowerShell Module"
+  #PowerShellGet requirest NuGet installation.
+  Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+
+  # Install AWS CLI
+  Import-Module AWSPowerShell
+
   Write-Host "Pulling down Unreal Engine version $env:UNREAL_ENGINE_VERSION from S3"
   Write-Host "Command to run: aws s3 sync $env:S3_BUCKET/$env:UNREAL_ENGINE_VERSION C:\Unreal\"
   aws s3 sync $env:S3_BUCKET/$env:UNREAL_ENGINE_VERSION "C:\Unreal\"
