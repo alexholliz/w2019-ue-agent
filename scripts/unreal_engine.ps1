@@ -2,11 +2,9 @@ $ErrorActionPreference = 'Stop'
 
 try {
   Write-Host "Importing AWSPowerShell Module"
-  #PowerShellGet requirest NuGet installation.
-  Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
 
   # Install AWS CLI
-  Import-Module AWSPowerShell
+  msiexec.exe /i https://awscli.amazonaws.com/AWSCLIV2.msi /qn
 
   Set-Location -Path "C:\"
   mkdir Unreal
