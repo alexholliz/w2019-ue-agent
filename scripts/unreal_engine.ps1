@@ -4,7 +4,7 @@ try {
   Write-Host "Importing AWSPowerShell Module"
 
   # Install AWS CLI
-  msiexec.exe /i https://awscli.amazonaws.com/AWSCLIV2.msi /qn
+  msiexec.exe /i https://awscli.amazonaws.com/AWSCLIV2.msi /passive
 
   Set-Location -Path "C:\"
   mkdir Unreal
