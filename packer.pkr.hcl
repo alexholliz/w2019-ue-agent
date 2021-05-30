@@ -99,6 +99,10 @@ build {
   #provisioner "powershell" {
   #  script = "./scripts/visual_studio.ps1"
   #}
+
+  provisioner "powershell" {
+    script = "./scripts/awscli.ps1"
+  }
   
   provisioner "powershell" {
     environment_vars = ["BUCKET=${var.S3_BUCKET}", "UNREAL_ENGINE_VERSION=${var.UNREAL_ENGINE_VERSION}", "AWS_ACCESS_KEY_ID=${var.S3_AKID}", "AWS_SECRET_ACCESS_KEY=${var.S3_SKEY}", "AWS_DEFAULT_REGION=${var.aws_region}"]
