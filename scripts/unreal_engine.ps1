@@ -1,11 +1,6 @@
 $ErrorActionPreference = 'Stop'
 
 try {
-  Write-Host "Installing AWS CLI"
-
-  choco install awscli
-  RefreshEnv.cmd
-
   Set-Location -Path "C:\"
   mkdir Unreal
   mkdir Unreal\$env:UNREAL_ENGINE_VERSION
