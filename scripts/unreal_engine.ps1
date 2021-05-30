@@ -4,6 +4,7 @@ try {
   Write-Host "Installing AWS CLI"
 
   choco install awscli
+  RefreshEnv.cmd
 
   Set-Location -Path "C:\"
   mkdir Unreal
