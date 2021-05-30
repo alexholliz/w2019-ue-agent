@@ -96,9 +96,9 @@ build {
     script = "./scripts/packages.ps1"
   }
 
-  #provisioner "powershell" {
-  #  script = "./scripts/visual_studio.ps1"
-  #}
+  provisioner "powershell" {
+    script = "./scripts/visual_studio.ps1"
+  }
 
   provisioner "powershell" {
     script = "./scripts/awscli.ps1"
