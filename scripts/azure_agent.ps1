@@ -5,12 +5,9 @@ try {
   # Download and prep agentdir
   Write-Host "Downloading Azure Agent"
   Invoke-WebRequest -Uri https://vstsagentpackage.azureedge.net/agent/2.187.1/vsts-agent-win-x64-2.187.1.zip -OutFile ~/Downloads/vsts-agent-win-x64-2.187.1.zip
-  
-  Write-Host "Switching to C:\"
-  Set-Location - Path "C:\"
 
   Write-Host "Making directory C:\agent"
-  mkdir agent
+  mkdir C:\agent
 
   Write-Host "Switching to C:\agent"
   Set-Location -Path "C:\agent"
