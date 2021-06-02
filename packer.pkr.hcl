@@ -116,11 +116,6 @@ build {
   }
 
   provisioner "powershell" {
-    environment_vars = ["URL=${var.azure_url}", "PAT=${var.azure_pat}", "POOL=${var.azure_pool}", "NAME=${var.azure_agent_name}"]
-    script           = "./scripts/azure_agent.ps1"
-  }
-
-  provisioner "powershell" {
     inline = ["C:/ProgramData/Amazon/EC2-Windows/Launch/Scripts/SendWindowsIsReady.ps1 -Schedule", "C:/ProgramData/Amazon/EC2-Windows/Launch/Scripts/InitializeInstance.ps1 -Schedule", "C:/ProgramData/Amazon/EC2-Windows/Launch/Scripts/SysprepInstance.ps1 -NoShutdown"]
   }
 }
