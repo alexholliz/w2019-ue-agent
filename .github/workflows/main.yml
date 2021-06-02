@@ -64,3 +64,5 @@ jobs:
           PKR_VAR_S3_SKEY: ${{ secrets.S3_IAM_SKEY }}
           PKR_VAR_S3_BUCKET: ${{ secrets.S3_BUCKET }}
           PKR_VAR_UNREAL_ENGINE_VERSION: ${{ secrets.UNREAL_ENGINE_VERSION }}
+          AWS_MAX_ATTEMPTS: 90
+          AWS_POLL_DELAY_SECONDS: 60
