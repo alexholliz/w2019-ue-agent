@@ -1,49 +1,49 @@
 variable "aws_region" {
-  type    = string
+  type = string
 }
 
 variable "subnet_id" {
-  type    = string
+  type = string
 }
 
 variable "vpc_id" {
-  type    = string
+  type = string
 }
 
 variable "AKID" {
-  type    = string
+  type = string
 }
 
 variable "SKEY" {
-  type    = string
+  type = string
 }
 
 variable "azure_url" {
-  type    = string
+  type = string
 }
 
 variable "azure_pat" {
-  type    = string
+  type = string
 }
 
 variable "azure_pool" {
-  type    = string
+  type = string
 }
 
 variable "S3_BUCKET" {
-  type    = string
+  type = string
 }
 
 variable "UNREAL_ENGINE_VERSION" {
-  type    = string
+  type = string
 }
 
 variable "S3_AKID" {
-  type    = string
+  type = string
 }
 
 variable "S3_SKEY" {
-  type    = string
+  type = string
 }
 
 variable "azure_agent_name" {
@@ -56,8 +56,8 @@ variable "azure_agent_name" {
 # source. Read the documentation for source blocks here:
 # https://www.packer.io/docs/from-1.5/blocks/source
 source "amazon-ebs" "packer-w2019-ue-423-azure" {
-  access_key = "${var.AKID}"
-  secret_key = "${var.SKEY}"
+  access_key       = "${var.AKID}"
+  secret_key       = "${var.SKEY}"
   ami_name         = "packer-w2019-ue-423-azure"
   communicator     = "winrm"
   force_deregister = true
@@ -72,12 +72,12 @@ source "amazon-ebs" "packer-w2019-ue-423-azure" {
     }
     most_recent = true
     # the "Amazon" ami owner
-    owners      = ["801119661308"]
+    owners = ["801119661308"]
   }
   launch_block_device_mappings {
-    device_name = "/dev/sda1"
-    volume_size = 100
-    volume_type = "gp3"
+    device_name           = "/dev/sda1"
+    volume_size           = 100
+    volume_type           = "gp3"
     delete_on_termination = true
   }
   subnet_id      = "${var.subnet_id}"
@@ -109,17 +109,17 @@ build {
   provisioner "powershell" {
     script = "./scripts/awscli.ps1"
   }
-  
+
   provisioner "powershell" {
     environment_vars = ["BUCKET=${var.S3_BUCKET}", "UNREAL_ENGINE_VERSION=${var.UNREAL_ENGINE_VERSION}", "AWS_ACCESS_KEY_ID=${var.S3_AKID}", "AWS_SECRET_ACCESS_KEY=${var.S3_SKEY}", "AWS_DEFAULT_REGION=${var.aws_region}"]
-    script = "./scripts/unreal_engine.ps1"
+    script           = "./scripts/unreal_engine.ps1"
   }
 
   provisioner "powershell" {
     environment_vars = ["URL=${var.azure_url}", "PAT=${var.azure_pat}", "POOL=${var.azure_pool}", "NAME=${var.azure_agent_name}"]
-    script = "./scripts/azure_agent.ps1"
+    script           = "./scripts/azure_agent.ps1"
   }
-  
+
   provisioner "powershell" {
     inline = ["C:/ProgramData/Amazon/EC2-Windows/Launch/Scripts/SendWindowsIsReady.ps1 -Schedule", "C:/ProgramData/Amazon/EC2-Windows/Launch/Scripts/InitializeInstance.ps1 -Schedule", "C:/ProgramData/Amazon/EC2-Windows/Launch/Scripts/SysprepInstance.ps1 -NoShutdown"]
   }
