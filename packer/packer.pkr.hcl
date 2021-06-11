@@ -18,18 +18,6 @@ variable "SKEY" {
   type = string
 }
 
-variable "azure_url" {
-  type = string
-}
-
-variable "azure_pat" {
-  type = string
-}
-
-variable "azure_pool" {
-  type = string
-}
-
 variable "S3_BUCKET" {
   type = string
 }
@@ -46,19 +34,14 @@ variable "S3_SKEY" {
   type = string
 }
 
-variable "azure_agent_name" {
-  type    = string
-  default = "packer-w2019-ue-423-azure"
-}
-
 # source blocks are generated from your builders; a source can be referenced in
 # build blocks. A build block runs provisioner and post-processors on a
 # source. Read the documentation for source blocks here:
 # https://www.packer.io/docs/from-1.5/blocks/source
-source "amazon-ebs" "packer-w2019-ue-423-azure" {
+source "amazon-ebs" "packer-w2019-ue-agent" {
   access_key       = "${var.AKID}"
   secret_key       = "${var.SKEY}"
-  ami_name         = "packer-w2019-ue-423-azure"
+  ami_name         = "packer-w2019-ue-agent"
   communicator     = "winrm"
   force_deregister = true
   instance_type    = "c5.large"
@@ -92,7 +75,7 @@ source "amazon-ebs" "packer-w2019-ue-423-azure" {
 # documentation for build blocks can be found here:
 # https://www.packer.io/docs/from-1.5/blocks/build
 build {
-  sources = ["source.amazon-ebs.packer-w2019-ue-423-azure"]
+  sources = ["source.amazon-ebs.packer-w2019-ue-agent"]
 
   provisioner "powershell" {
     script = "./packer/scripts/disable_uac.ps1"
