@@ -1,6 +1,4 @@
-# packer-w2019
-
-Blog Post
+# w2019-ue-agent
 
 <https://alexanderhollis.com/aws/packer/windows/unreal/2021/06/12/building-an-unreal-4-game-build-agent-ami-with-packer.html>
 
