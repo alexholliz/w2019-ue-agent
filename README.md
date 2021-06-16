@@ -2,22 +2,33 @@
 
 Blog Post
 
-<https://alexholliz.github.io/aws/packer/windows/2021/05/18/building-a-windows-server-ami-with-packer.html>
+<https://alexanderhollis.com/aws/packer/windows/unreal/2021/06/12/building-an-unreal-4-game-build-agent-ami-with-packer.html>
 
-This repo takes the instructions for building packer as described in that blog post, and to it, adds Github Actions to automatically build a base Windows Server 2019 AMI.
+This repo takes the instructions for building an AMI as described in that blog post, and adds Github Actions to automatically build a Windows Server 2019 Unreal Engine 4 AMI.
 
 ## Prereqs
 
 Github Repository Secrets for your: 
-* AWS Access Key ID
-* AWS Secret Access Key
+* AWS Packer IAM Access Key ID
+* AWS Packer IAM Secret Access Key
+* AWS S3 IAM Access Key ID
+* AWS S3 IAM Secret Access Key
 * VPC ID
 * Subnet ID
 * AWS Region
+* S3 Bucket
+* Unreal Engine Version
 
 ## Actions
 
-The Actions file is pretty dang simple, set a few environment variables to use your repository secrets, and use the Packer actions from Hashicorp: <https://github.com/marketplace/actions/packer-github-actions>
+The Actions file sets a few environment variables to use your repository secrets, and uses the Packer actions from Hashicorp: <https://github.com/marketplace/actions/packer-github-actions>
+
+It also has some extra logic to avoid Github Actions timeouts. This thing takes like 90 minutes to run.
+
+```
+          AWS_MAX_ATTEMPTS: 90
+          AWS_POLL_DELAY_SECONDS: 60
+```
 
 Below is the main.yml for the Actions workflow, but the breakdown is:
 
@@ -38,6 +49,8 @@ name: Packer
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
+    paths:
+      - 'packer/**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -60,21 +73,25 @@ jobs:
         with:
           command: validate
           arguments: -syntax-only
-          target: packer.pkr.hcl
+          target: ./packer/packer.pkr.hcl
         env:
           PKR_VAR_aws_region: ${{ secrets.AWS_REGION }}
           PKR_VAR_vpc_id: ${{ secrets.VPC_ID }}
           PKR_VAR_subnet_id: ${{ secrets.SUBNET_ID }}
           PKR_VAR_AKID: ${{ secrets.PACKER_IAM_AKID }}
           PKR_VAR_SKEY: ${{ secrets.PACKER_IAM_SKEY }}
+          PKR_VAR_S3_AKID: ${{ secrets.S3_IAM_AKID }}
+          PKR_VAR_S3_SKEY: ${{ secrets.S3_IAM_SKEY }}
+          PKR_VAR_S3_BUCKET: ${{ secrets.S3_BUCKET }}
+          PKR_VAR_UNREAL_ENGINE_VERSION: ${{ secrets.UNREAL_ENGINE_VERSION }}
 
       # build artifact
       - name: Build Artifact
         uses: hashicorp/packer-github-actions@master
         with:
           command: build
-          arguments: "-color=false -on-error=abort"
-          target: packer.pkr.hcl
+          arguments: "-color=false -on-error=cleanup"
+          target: ./packer/packer.pkr.hcl
         env:
           PACKER_LOG: 1
           PKR_VAR_aws_region: ${{ secrets.AWS_REGION }}
@@ -82,4 +99,10 @@ jobs:
           PKR_VAR_subnet_id: ${{ secrets.SUBNET_ID }}
           PKR_VAR_AKID: ${{ secrets.PACKER_IAM_AKID }}
           PKR_VAR_SKEY: ${{ secrets.PACKER_IAM_SKEY }}
+          PKR_VAR_S3_AKID: ${{ secrets.S3_IAM_AKID }}
+          PKR_VAR_S3_SKEY: ${{ secrets.S3_IAM_SKEY }}
+          PKR_VAR_S3_BUCKET: ${{ secrets.S3_BUCKET }}
+          PKR_VAR_UNREAL_ENGINE_VERSION: ${{ secrets.UNREAL_ENGINE_VERSION }}
+          AWS_MAX_ATTEMPTS: 90
+          AWS_POLL_DELAY_SECONDS: 60
 ```

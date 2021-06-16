@@ -37,9 +37,6 @@ jobs:
           PKR_VAR_subnet_id: ${{ secrets.SUBNET_ID }}
           PKR_VAR_AKID: ${{ secrets.PACKER_IAM_AKID }}
           PKR_VAR_SKEY: ${{ secrets.PACKER_IAM_SKEY }}
-          PKR_VAR_azure_url: ${{ secrets.AZURE_URL }}
-          PKR_VAR_azure_pat: ${{ secrets.AZURE_PAT }}
-          PKR_VAR_azure_pool: ${{ secrets.AZURE_POOL }}
           PKR_VAR_S3_AKID: ${{ secrets.S3_IAM_AKID }}
           PKR_VAR_S3_SKEY: ${{ secrets.S3_IAM_SKEY }}
           PKR_VAR_S3_BUCKET: ${{ secrets.S3_BUCKET }}
@@ -59,9 +56,6 @@ jobs:
           PKR_VAR_subnet_id: ${{ secrets.SUBNET_ID }}
           PKR_VAR_AKID: ${{ secrets.PACKER_IAM_AKID }}
           PKR_VAR_SKEY: ${{ secrets.PACKER_IAM_SKEY }}
-          PKR_VAR_azure_url: ${{ secrets.AZURE_URL }}
-          PKR_VAR_azure_pat: ${{ secrets.AZURE_PAT }}
-          PKR_VAR_azure_pool: ${{ secrets.AZURE_POOL }}
           PKR_VAR_S3_AKID: ${{ secrets.S3_IAM_AKID }}
           PKR_VAR_S3_SKEY: ${{ secrets.S3_IAM_SKEY }}
           PKR_VAR_S3_BUCKET: ${{ secrets.S3_BUCKET }}
